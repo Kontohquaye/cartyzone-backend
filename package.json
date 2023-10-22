@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "nodemon": "nodemon serve.js"
+    "nodemon": "nodemon server.js"
   },
   "author": "kontoh quaye",
   "license": "ISC",
