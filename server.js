@@ -4,10 +4,12 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const PORT = process.env.PORT || 5000;
 
 // import routes
 const { productsRouter } = require("./routes/productsRoute");
+const { usersRouter } = require("./routes/usersRoute");
 
 dotenv.config();
 
@@ -15,7 +17,7 @@ dotenv.config();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
-app.use(cors({ origin: process.env.FRONTEND_URL }));
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 
 // database connection
 const connectToDB = () => {
@@ -34,6 +36,7 @@ const connectToDB = () => {
 
 // endpoind fetch
 app.use("/api/products", productsRouter);
+app.use("/api/users", usersRouter);
 
 app.use((err, req, res, next) => {
   console.log(req.path);
