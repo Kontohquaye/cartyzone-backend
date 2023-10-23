@@ -12,12 +12,12 @@ const productsRouter = Router();
 
 // endpoints
 // all products
-productsRouter.get("/products", products_get);
+productsRouter.get("/", products_get);
 
 // single product
-productsRouter.get("/products/:id", product_get);
+productsRouter.get("/:id", product_get);
 
 // seed Products
-productsRouter.post("/products/seed", products_post);
+productsRouter.post("/seed", products_post);
 
 module.exports = { productsRouter };

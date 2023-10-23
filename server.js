@@ -33,7 +33,18 @@ const connectToDB = () => {
 };
 
 // endpoind fetch
-app.use("/api", productsRouter);
+app.use("/api/products", productsRouter);
+
+app.use((err, req, res, next) => {
+  console.log(req.path);
+  res.status(400).send({ err: err.message });
+  next();
+});
+
+app.use("*", (req, res, next) => {
+  res.status(400).send({ error: "404 Not found" });
+  next();
+});
 
 app.listen(PORT, () => {
   connectToDB();
