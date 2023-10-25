@@ -13,7 +13,7 @@ const signup_post = expressAsyncHandler(async (req, res) => {
     const newUser = await User.create({ username, email, password, isAdmin });
     // console.log(newUser);
     const maxAge = 2 * 24 * 60 * 60 * 1000;
-    res.cookie(`account-${newUser.username}-czone`, generateToken(newUser), {
+    res.cookie(`cartyzone`, generateToken(newUser), {
       maxAge: maxAge,
       httpOnly: true,
     });
@@ -69,15 +69,19 @@ const signin_post = expressAsyncHandler(async (req, res) => {
       if (passwordIsValid) {
         // set cookies
         const maxAge = 3 * 24 * 60 * 60 * 1000;
-        res.cookie(`account-${user.username}-czone`, generateToken(user), {
+        res.cookie(`cartyzone`, generateToken(user), {
           maxAge: maxAge,
           httpOnly: true,
         });
 
         // send response
-        res
-          .status(200)
-          .send({ user: { username: user.username, isAdmin: user.isAdmin } });
+        res.status(200).send({
+          user: {
+            username: user.username,
+            id: user._id,
+            isAdmin: user.isAdmin,
+          },
+        });
       } else {
         res.status(401).send({ error: { password: "password is incorrect" } });
       }

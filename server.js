@@ -10,6 +10,8 @@ const PORT = process.env.PORT || 5000;
 // import routes
 const { productsRouter } = require("./routes/productsRoute");
 const { usersRouter } = require("./routes/usersRoute");
+const { ordersRouter } = require("./routes/ordersRoute");
+const couponsRouter = require("./routes/couponsRoute");
 
 dotenv.config();
 
@@ -18,6 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
+app.use(cookieParser());
 
 // database connection
 const connectToDB = () => {
@@ -37,6 +40,8 @@ const connectToDB = () => {
 // endpoind fetch
 app.use("/api/products", productsRouter);
 app.use("/api/users", usersRouter);
+app.use("/api/orders", ordersRouter);
+app.use("/api/coupons", couponsRouter);
 
 app.use((err, req, res, next) => {
   console.log(req.path);
