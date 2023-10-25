@@ -18,6 +18,7 @@ const placeOrder_post = expressAsyncHandler(async (req, res) => {
       taxPrice: order.taxPrice,
       totalPrice: order.totalPrice,
       user: _id,
+      discount: order.discount,
     });
 
     res.send(newOrder);
