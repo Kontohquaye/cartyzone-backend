@@ -5,9 +5,13 @@ const ordersRouter = Router();
 // middleware
 const { isAuth } = require("../middlewares/isAuth");
 // order controller
-const { placeOrder_post } = require("../controllers/ordersController");
+const {
+  placeOrder_post,
+  getOrders_post,
+} = require("../controllers/ordersController");
 
 // endpoints
 // place order
 ordersRouter.post("/order", isAuth, placeOrder_post);
+ordersRouter.post("/user/all", getOrders_post);
 module.exports = { ordersRouter };

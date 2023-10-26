@@ -19,6 +19,7 @@ const placeOrder_post = expressAsyncHandler(async (req, res) => {
       totalPrice: order.totalPrice,
       user: _id,
       discount: order.discount,
+      date: order.date,
     });
 
     res.send(newOrder);
@@ -41,4 +42,19 @@ const placeOrder_post = expressAsyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { placeOrder_post };
+// get order
+
+const getOrders_post = expressAsyncHandler(async (req, res) => {
+  const { user } = req.body;
+  try {
+    const userOrders = await Order.find({ user: user }).select(
+      "_id date totalPrice isPaid isDelivered"
+    );
+
+    res.status(200).send({ orders: userOrders });
+  } catch (error) {
+    res.status(401).send({ error: "Unauthorized access sign in" });
+  }
+});
+
+module.exports = { placeOrder_post, getOrders_post };

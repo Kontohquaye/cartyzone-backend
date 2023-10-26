@@ -18,6 +18,7 @@ const orderSchema = new Schema(
         },
       },
     ],
+    date: { type: Date, required: true },
     shippingDetails: {
       firstName: { type: String, required: [true, "please enter firstname "] },
       lastName: { type: String, required: [true, "please enter lastname"] },
@@ -37,6 +38,7 @@ const orderSchema = new Schema(
       update_time: String,
       email_address: String,
     },
+
     itemsPrice: { type: Number, required: true },
     shippingPrice: { type: Number, required: true },
     taxPrice: { type: Number, required: true },
