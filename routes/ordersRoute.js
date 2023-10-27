@@ -9,11 +9,13 @@ const {
   placeOrder_post,
   getOrders_post,
   getOrder,
+  deleteOrder,
 } = require("../controllers/ordersController");
 
 // endpoints
 // place order
 ordersRouter.post("/order", isAuth, placeOrder_post);
+ordersRouter.delete("/order/get/:id", deleteOrder);
 ordersRouter.get("/order/get/:id", isAuth, getOrder);
 ordersRouter.post("/user/all", isAuth, getOrders_post);
 module.exports = { ordersRouter };

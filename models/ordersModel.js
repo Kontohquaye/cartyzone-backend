@@ -29,6 +29,7 @@ const orderSchema = new Schema(
       postalCode: {
         type: String,
         required: [true, "please provide postal code "],
+        maxlength: [6, "6 characters max"],
       },
       country: { type: String, required: [true, "please provide country "] },
     },

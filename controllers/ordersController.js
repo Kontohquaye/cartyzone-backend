@@ -38,7 +38,7 @@ const placeOrder_post = expressAsyncHandler(async (req, res) => {
         resErrors[splitValues[1]] = error.errors[err].message;
       });
     }
-    res.send({ error: resErrors });
+    res.status(401).send({ error: resErrors });
   }
 });
 
@@ -46,16 +46,28 @@ const placeOrder_post = expressAsyncHandler(async (req, res) => {
 
 const getOrder = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
-  console.log(id);
   try {
     const userOrder = await Order.find(
       { _id: id },
       "-user -_id -__v -orderItems._id"
     );
 
-    res.status(200).send({ order: userOrder });
+    res.status(200).send({ ...userOrder });
   } catch (error) {
     res.status(401).send({ error: "unauthorized access" });
+  }
+});
+const deleteOrder = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await Order.findByIdAndDelete(id);
+
+    res.status(200).send({ message: "order deleted" });
+  } catch (error) {
+    console.log(error);
+    // res.status(401).send({ error: "unauthorized access" });
+    res.status(501).send({ error: "server error" });
   }
 });
 
@@ -73,4 +85,4 @@ const getOrders_post = expressAsyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { placeOrder_post, getOrder, getOrders_post };
+module.exports = { placeOrder_post, getOrder, deleteOrder, getOrders_post };
