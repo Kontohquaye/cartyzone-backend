@@ -8,10 +8,12 @@ const { isAuth } = require("../middlewares/isAuth");
 const {
   placeOrder_post,
   getOrders_post,
+  getOrder,
 } = require("../controllers/ordersController");
 
 // endpoints
 // place order
 ordersRouter.post("/order", isAuth, placeOrder_post);
-ordersRouter.post("/user/all", getOrders_post);
+ordersRouter.get("/order/get/:id", isAuth, getOrder);
+ordersRouter.post("/user/all", isAuth, getOrders_post);
 module.exports = { ordersRouter };

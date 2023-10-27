@@ -44,6 +44,22 @@ const placeOrder_post = expressAsyncHandler(async (req, res) => {
 
 // get order
 
+const getOrder = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  try {
+    const userOrder = await Order.find(
+      { _id: id },
+      "-user -_id -__v -orderItems._id"
+    );
+
+    res.status(200).send({ order: userOrder });
+  } catch (error) {
+    res.status(401).send({ error: "unauthorized access" });
+  }
+});
+
+// get userorders
 const getOrders_post = expressAsyncHandler(async (req, res) => {
   const { user } = req.body;
   try {
@@ -57,4 +73,4 @@ const getOrders_post = expressAsyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { placeOrder_post, getOrders_post };
+module.exports = { placeOrder_post, getOrder, getOrders_post };
