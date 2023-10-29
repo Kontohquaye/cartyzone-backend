@@ -21,6 +21,8 @@ const signup_post = expressAsyncHandler(async (req, res) => {
       user: {
         username: newUser.username,
         isAdmin: newUser.isAdmin,
+        id: newUser._id,
+        token: generateToken(newUser),
       },
     });
   } catch (error) {
@@ -117,6 +119,7 @@ const signin_post = expressAsyncHandler(async (req, res) => {
             username: user.username,
             id: user._id,
             isAdmin: user.isAdmin,
+            token: generateToken(user),
           },
         });
       } else {
