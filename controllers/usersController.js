@@ -62,39 +62,52 @@ const signup_post = expressAsyncHandler(async (req, res) => {
 });
 
 const update_post = expressAsyncHandler(async (req, res) => {
-  try {
-    const user = await User.findOne({ email: req.body.email });
-    // console.log(user.password);
-    if (user) {
-      // console.log(user);
-      const isAuth = await bcrypt.compare(req.body.password, user.password);
-      console.log(isAuth);
-      if (isAuth) {
-        user.password = req.body.newPassword;
-        if (req.body.username) {
-          user.username = req.body.username;
-          await user.save();
+  const { user } = req.body;
+  console.log(user);
+  if (user) {
+    try {
+      ///////
+      const userDetails = await User.findOne({ email: req.body.email });
+      // console.log(user.password);
+      if (userDetails) {
+        // console.log(user);
+        const isAuth = await bcrypt.compare(
+          req.body.password,
+          userDetails.password
+        );
+        // console.log(isAuth);
+        if (isAuth) {
+          userDetails.password = req.body.newPassword;
+          if (req.body.username) {
+            userDetails.username = req.body.username;
+            await userDetails.save();
+          } else {
+            await userDetails.save();
+          }
+          if (isAuth && req.body.password && req.body.username) {
+            res.status(200).send({ message: "details updated successfully" });
+          } else {
+            res.status(200).send({ message: "Password updated successfully" });
+          }
         } else {
-          await user.save();
-        }
-        if (isAuth && req.body.password && req.body.username) {
-          res.status(200).send({ message: "details updated successfully" });
-        } else {
-          res.status(200).send({ message: "Password updated successfully" });
+          res.status(400).send({ message: "invalid password" });
         }
       } else {
-        res.status(400).send({ message: "invalid password" });
+        res.status(400).send({ message: "Invalid email" });
       }
-    } else {
-      res.status(400).send({ message: "Invalid email" });
+      ///
+    } catch (err) {
+      console.log(err);
+      res.status(400).send({
+        message: "username should be at least 4 characters and 14 max",
+      });
     }
-  } catch (err) {
-    console.log(err);
-    res
-      .status(400)
-      .send({ message: "username should be at least 4 characters and 14 max" });
+  } else {
+    res.send({ message: "invalid account credentials" });
   }
+  ////////
 });
+
 // signup
 const signin_post = expressAsyncHandler(async (req, res) => {
   const { email, password } = req.body;
