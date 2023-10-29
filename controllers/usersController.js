@@ -68,7 +68,6 @@ const update_post = expressAsyncHandler(async (req, res) => {
       const isAuth = await bcrypt.compare(req.body.password, user.password);
       console.log(isAuth);
       if (isAuth) {
-        const salt = await bcrypt.genSalt();
         user.password = req.body.newPassword;
         if (req.body.username) {
           user.username = req.body.username;
@@ -76,7 +75,7 @@ const update_post = expressAsyncHandler(async (req, res) => {
         } else {
           await user.save();
         }
-        if (req.body.password && req.body.username) {
+        if (isAuth && req.body.password && req.body.username) {
           res.status(200).send({ message: "details updated successfully" });
         } else {
           res.status(200).send({ message: "Password updated successfully" });
