@@ -72,8 +72,10 @@ const update_post = expressAsyncHandler(async (req, res) => {
         user.password = req.body.newPassword;
         if (req.body.username) {
           user.username = req.body.username;
+          await user.save();
+        } else {
+          await user.save();
         }
-        await user.save();
         if (req.body.password && req.body.username) {
           res.status(200).send({ message: "details updated successfully" });
         } else {

@@ -15,6 +15,6 @@ const {
 // sign up
 usersRouter.post("/signup", signup_post);
 usersRouter.post("/account/signin", signin_post);
-usersRouter.post("/account/details/update", isAuth, update_post);
+usersRouter.put("/account/details/update", isAuth, update_post);
 
 module.exports = { usersRouter };
