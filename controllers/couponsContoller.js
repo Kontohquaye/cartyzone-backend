@@ -14,6 +14,7 @@ const coupon_post = expressAsyncHandler(async (req, res) => {
 });
 const getCoupon_post = expressAsyncHandler(async (req, res) => {
   const { name: couponName } = req.body;
+  console.log(couponName); //
   try {
     const coupon = await Coupon.findOne({ name: couponName });
     if (coupon) {
