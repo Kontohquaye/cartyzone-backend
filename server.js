@@ -30,7 +30,7 @@ app.use(cookieParser());
 // database connection
 const connectToDB = () => {
   mongoose
-    .connect(process.env.MONGODB_URI_LOCAL, {
+    .connect(process.env.MONGODB_URI_REMOTE, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
@@ -54,10 +54,10 @@ app.use((err, req, res, next) => {
   next();
 });
 
-app.use("*", (req, res, next) => {
-  res.status(400).send({ error: "404 Not found" });
-  next();
-});
+// app.use("*", (req, res, next) => {
+//   res.status(400).send({ error: "404 Not found" });
+//   next();
+// });
 
 app.listen(PORT, () => {
   connectToDB();
