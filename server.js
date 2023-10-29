@@ -21,7 +21,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use(
   cors({
-    origin: [process.env.FRONTEND_URL_LOCAL, process.env.FRONTEND_URL_REMOTE],
+    origin: [
+      process.env.FRONTEND_URL_LOCAL,
+      process.env.FRONTEND_URL_REMOTE,
+      process.env.FRONTEND_URL_REMOTE_APP,
+    ],
     credentials: true,
   })
 );
