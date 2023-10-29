@@ -19,13 +19,18 @@ dotenv.config();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
-app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
+app.use(
+  cors({
+    origin: [process.env.FRONTEND_URL_LOCAL, process.env.FRONTEND_URL_REMOTE],
+    credentials: true,
+  })
+);
 app.use(cookieParser());
 
 // database connection
 const connectToDB = () => {
   mongoose
-    .connect(process.env.MONGODB_URI_LOCAL, {
+    .connect(process.env.MONGODB_URI_REMOTE, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })

@@ -59,6 +59,39 @@ const signup_post = expressAsyncHandler(async (req, res) => {
   }
 });
 
+const update_post = expressAsyncHandler(async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    // console.log(user.password);
+    if (user) {
+      // console.log(user);
+      const isAuth = await bcrypt.compare(req.body.password, user.password);
+      console.log(isAuth);
+      if (isAuth) {
+        const salt = await bcrypt.genSalt();
+        user.password = req.body.newPassword;
+        if (req.body.username) {
+          user.username = req.body.username;
+        }
+        await user.save();
+        if (req.body.password && req.body.username) {
+          res.status(200).send({ message: "details updated successfully" });
+        } else {
+          res.status(200).send({ message: "Password updated successfully" });
+        }
+      } else {
+        res.status(400).send({ message: "invalid password" });
+      }
+    } else {
+      res.status(400).send({ message: "Invalid email" });
+    }
+  } catch (err) {
+    console.log(err);
+    res
+      .status(400)
+      .send({ message: "username should be at least 4 characters and 14 max" });
+  }
+});
 // signup
 const signin_post = expressAsyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -72,6 +105,9 @@ const signin_post = expressAsyncHandler(async (req, res) => {
         res.cookie(`cartyzone`, generateToken(user), {
           maxAge: maxAge,
           httpOnly: true,
+        });
+        res.cookie(`cartysign`, "account created", {
+          maxAge: maxAge,
         });
 
         // send response
@@ -90,8 +126,9 @@ const signin_post = expressAsyncHandler(async (req, res) => {
       res.status(401).send({ error: { email: "invalid email" } });
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
+    res.send({ error });
   }
 });
 
-module.exports = { signup_post, signin_post };
+module.exports = { signup_post, signin_post, update_post };

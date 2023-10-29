@@ -10,6 +10,7 @@ const {
   getOrders_post,
   getOrder,
   deleteOrder,
+  searchOrder_get,
 } = require("../controllers/ordersController");
 
 // endpoints
@@ -17,5 +18,6 @@ const {
 ordersRouter.post("/order", isAuth, placeOrder_post);
 ordersRouter.delete("/order/get/:id", deleteOrder);
 ordersRouter.get("/order/get/:id", isAuth, getOrder);
+ordersRouter.get("/order/search/details/get", isAuth, searchOrder_get);
 ordersRouter.post("/user/all", isAuth, getOrders_post);
 module.exports = { ordersRouter };

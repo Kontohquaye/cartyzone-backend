@@ -57,6 +57,23 @@ const getOrder = expressAsyncHandler(async (req, res) => {
     res.status(401).send({ error: "unauthorized access" });
   }
 });
+
+// search order
+const searchOrder_get = expressAsyncHandler(async (req, res) => {
+  const { q } = req.query;
+  try {
+    const order = await Order.findById(q);
+    if (order) {
+      res.status(200).send({ order });
+    } else {
+      res.status(401).send({ error: "no order matched the query" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(401).send({ error: "Invalid order id" });
+  }
+});
+// delete
 const deleteOrder = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
 
@@ -75,9 +92,9 @@ const deleteOrder = expressAsyncHandler(async (req, res) => {
 const getOrders_post = expressAsyncHandler(async (req, res) => {
   const { user } = req.body;
   try {
-    const userOrders = await Order.find({ user: user }).select(
-      "_id date totalPrice isPaid isDelivered"
-    );
+    const userOrders = await Order.find({ user: user })
+      .select("_id date totalPrice isPaid isDelivered")
+      .sort({ _id: -1 });
 
     res.status(200).send({ orders: userOrders });
   } catch (error) {
@@ -85,4 +102,10 @@ const getOrders_post = expressAsyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { placeOrder_post, getOrder, deleteOrder, getOrders_post };
+module.exports = {
+  placeOrder_post,
+  getOrder,
+  deleteOrder,
+  getOrders_post,
+  searchOrder_get,
+};
