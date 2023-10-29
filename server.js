@@ -52,11 +52,11 @@ app.use("/api/users", usersRouter);
 app.use("/api/orders", ordersRouter);
 app.use("/api/coupons", couponsRouter);
 
-app.use((err, req, res, next) => {
-  console.log(req.path);
-  res.status(400).send({ err: err.message });
-  next();
-});
+// app.use((err, req, res, next) => {
+//   console.log(req.path);
+//   res.status(400).send({ err: err.message });
+//   next();
+// });
 
 // app.use("*", (req, res, next) => {
 //   res.status(400).send({ error: "404 Not found" });
