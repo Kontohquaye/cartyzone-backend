@@ -58,6 +58,11 @@ app.use("/api/coupons", couponsRouter);
 //   next();
 // });
 
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ error: "Internal Server Error" });
+});
+
 // app.use("*", (req, res, next) => {
 //   res.status(400).send({ error: "404 Not found" });
 //   next();
