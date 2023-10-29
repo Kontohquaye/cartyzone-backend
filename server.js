@@ -60,7 +60,7 @@ app.use("/api/coupons", couponsRouter);
 
 app.use((err, req, res, next) => {
   console.error(err);
-  res.status(500).json({ error: "Internal Server Error" });
+  res.status(500).json({ error: err.message });
 });
 
 // app.use("*", (req, res, next) => {
