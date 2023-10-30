@@ -24,6 +24,7 @@ const placeOrder_post = expressAsyncHandler(async (req, res) => {
 
     res.send(newOrder);
   } catch (error) {
+    // console.log(error);
     const resErrors = {};
     if (error.errors) {
       const errorObject = Object.keys(error.errors);
@@ -55,6 +56,32 @@ const getOrder = expressAsyncHandler(async (req, res) => {
     res.status(200).send({ ...userOrder });
   } catch (error) {
     res.status(401).send({ error: "unauthorized access" });
+  }
+});
+
+const payOrder_put = expressAsyncHandler(async (req, res) => {
+  const { id, status, update_time, email_address } = req.body;
+  try {
+    const order = await Order.findById(req.params.id);
+    // console.log({ order: { id, status, update_time, email_address } });
+    if (order) {
+      order.isPaid = true;
+      order.paidAt = Date.now();
+      order.paymentResults = {
+        id: id,
+        status: status,
+        update_time: update_time,
+        email_address: email_address,
+      };
+      const updatedOrder = await order.save();
+      console.log(updatedOrder);
+      res.send({ message: "order paid" });
+    } else {
+      res.status(404).send({ message: "order doesn't exist" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(400).send({ message: "payment request failed" });
   }
 });
 
@@ -108,4 +135,5 @@ module.exports = {
   deleteOrder,
   getOrders_post,
   searchOrder_get,
+  payOrder_put,
 };

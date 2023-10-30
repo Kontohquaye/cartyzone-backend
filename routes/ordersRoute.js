@@ -11,10 +11,13 @@ const {
   getOrder,
   deleteOrder,
   searchOrder_get,
+  payOrder_put,
 } = require("../controllers/ordersController");
 
 // endpoints
 // place order
+
+ordersRouter.put("/order/:id/pay", isAuth, payOrder_put);
 ordersRouter.post("/order", isAuth, placeOrder_post);
 ordersRouter.delete("/order/get/:id", deleteOrder);
 ordersRouter.get("/order/get/:id", isAuth, getOrder);

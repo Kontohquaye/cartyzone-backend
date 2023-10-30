@@ -117,12 +117,15 @@ const signin_post = expressAsyncHandler(async (req, res) => {
       const passwordIsValid = await bcrypt.compare(password, user.password);
       if (passwordIsValid) {
         // set cookies
+        const currentDate = new Date();
+        const currentTime = currentDate.getTime();
         const maxAge = 3 * 24 * 60 * 60 * 1000;
+        const futuredate = maxAge + currentTime;
         res.cookie(`cartyzone`, generateToken(user), {
           maxAge: maxAge,
           httpOnly: true,
         });
-        res.cookie(`cartysign`, "account created", {
+        res.cookie(`cartysign`, `account created;exp${futuredate}`, {
           maxAge: maxAge,
         });
 
