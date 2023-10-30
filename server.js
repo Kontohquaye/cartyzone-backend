@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const cors = require("cors");
+const path = require("path");
 const cookieParser = require("cookie-parser");
 const PORT = process.env.PORT || 5000;
 
@@ -16,7 +17,7 @@ const couponsRouter = require("./routes/couponsRoute");
 dotenv.config();
 
 // middlewares
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
@@ -60,10 +61,8 @@ app.use("/api/coupons", couponsRouter);
 //   next();
 // });
 
-
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 app.use((err, req, res, next) => {
