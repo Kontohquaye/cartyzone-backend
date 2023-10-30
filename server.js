@@ -16,6 +16,7 @@ const couponsRouter = require("./routes/couponsRoute");
 dotenv.config();
 
 // middlewares
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
@@ -58,6 +59,12 @@ app.use("/api/coupons", couponsRouter);
 //   res.status(400).send({ err: err.message });
 //   next();
 // });
+
+
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 app.use((err, req, res, next) => {
   console.error(err);
