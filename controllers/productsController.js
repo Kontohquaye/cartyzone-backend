@@ -26,6 +26,18 @@ const product_get = expressAsyncHandler(async (req, res) => {
   }
 });
 
+const productsCategory_get = expressAsyncHandler(async (req, res) => {
+  try {
+    const categories = await Product.find().distinct("category");
+    if (categories) {
+      // console.log(categories);
+      res.status(200).send(categories);
+    }
+  } catch (err) {
+    res.status(400).send({ message: "server error" });
+  }
+});
+
 // seed products
 const products_post = expressAsyncHandler(async (req, res) => {
   const products = req.body;
@@ -43,4 +55,5 @@ module.exports = {
   products_get,
   product_get,
   products_post,
+  productsCategory_get,
 };

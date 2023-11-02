@@ -24,7 +24,7 @@ const placeOrder_post = expressAsyncHandler(async (req, res) => {
 
     res.send(newOrder);
   } catch (error) {
-    // console.log(error);
+    console.log(error);
     const resErrors = {};
     if (error.errors) {
       const errorObject = Object.keys(error.errors);
