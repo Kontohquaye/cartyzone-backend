@@ -41,6 +41,7 @@ const connectToDB = () => {
       useUnifiedTopology: true,
     })
     .then((data) => {
+      // console.log(data.models);
       console.log("connected to DB");
     })
     .catch((error) => {
