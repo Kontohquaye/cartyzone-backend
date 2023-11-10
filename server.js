@@ -17,15 +17,14 @@ const couponsRouter = require("./routes/couponsRoute");
 dotenv.config();
 
 // middlewares
-app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use(
   cors({
     origin: [
-      process.env.FRONTEND_URL_LOCAL,
       process.env.FRONTEND_URL_REMOTE,
+      process.env.FRONTEND_URL_LOCAL,
       process.env.FRONTEND_URL_REMOTE_APP,
     ],
     credentials: true,
