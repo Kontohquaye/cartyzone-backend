@@ -74,7 +74,7 @@ const payOrder_put = expressAsyncHandler(async (req, res) => {
         email_address: email_address,
       };
       const updatedOrder = await order.save();
-      console.log(updatedOrder);
+      // console.log(updatedOrder);
       res.send({ message: "order paid" });
     } else {
       res.status(404).send({ message: "order doesn't exist" });
